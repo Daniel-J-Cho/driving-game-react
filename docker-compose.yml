@@ -1,0 +1,52 @@
+version: '3.8'
+
+services:
+  dev:
+    image: mcr.microsoft.com/devcontainers/javascript-node:20-bullseye
+    platform: linux/arm64
+    environment:
+      PGHOST: ${PGHOST}
+      PGUSER: ${PGUSER}
+      PGPASSWORD: ${PGPASSWORD}
+      PGDATABASE: ${PGDATABASE}
+    volumes:
+      - home_dev:/home/dev
+      - vscode_extensions:/home/dev/.vscode-server/extensions
+      - /var/run/docker.sock:/var/run/docker.sock
+      
+    ports:
+      - 5173:5173
+    depends_on:
+      - postgres
+
+  postgres:
+    image: postgres:15-alpine
+    platform: linux/arm64
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${PGUSER} -d ${PGDATABASE}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  pgweb:
+    image: sosedoff/pgweb:0.11.11
+    environment:
+      - DATABASE_URL=postgres://${PGUSER}:${PGPASSWORD}@postgres/${PGDATABASE}?sslmode=disable
+    ports:
+      - 8082:8081
+    depends_on:
+      - postgres
+    restart: always
+
+volumes:
+  home_dev:
+  postgres_data:
+  vscode_extensions:

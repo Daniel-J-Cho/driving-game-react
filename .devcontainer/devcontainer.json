@@ -1,0 +1,32 @@
+{
+	"name": "Node.js & JavaScript",
+	"dockerComposeFile": "../docker-compose.yml",
+	"service": "dev",
+	"workspaceFolder": "/home/dev/workspace",
+	"remoteUser": "dev",
+
+	"features": {
+		"ghcr.io/devcontainers/features/common-utils:2": {
+			"installZsh": true,
+			"installOhMyZsh": true,
+			"upgradePackages": true
+		},
+		"ghcr.io/devcontainers/features/sshd:1": {
+			"version": "latest",
+			"forwardAgent": true
+		}
+	},
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"dbaeumer.vscode-eslint",
+				"esbenp.prettier-vscode",
+				"formulahendry.auto-rename-tag",
+				"EditorConfig.EditorConfig"
+			]
+		}
+	},
+	"postCreateCommand": "[ ! -f package-lock.json ] || npm ci",
+	"forwardPorts": [5173, 5432, 8082],
+	"shutdownAction": "stopCompose"
+}
