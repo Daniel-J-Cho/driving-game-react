@@ -2,7 +2,7 @@
 	"name": "Node.js & JavaScript",
 	"dockerComposeFile": "../docker-compose.yml",
 	"service": "dev",
-	"workspaceFolder": "/home/dev/workspace",
+	"workspaceFolder": "/home/node/workspace",
 	"remoteUser": "node",
 
 	"features": {
@@ -27,9 +27,7 @@
 		}
 	},
 	"initializeCommand": "cp .env.example .env && chmod 600 .env",
-	"waitFor": "onCreateCommand",
-	"overrideCommand": false,
-	"postCreateCommand": "timeout 120s bash -c '[ -f .env ] || (echo 'ERROR: .env file missing!'; exit 1); [ ! -f package-lock.json ] || npm ci'",
+	"postCreateCommand": "[ ! -f package-lock.json ] || npm ci'",
 	"forwardPorts": [5173, 5432, 8082],
 	"shutdownAction": "stopCompose"
 }
