@@ -28,6 +28,6 @@
 	},
 	"initializeCommand": "cp .env.example .env && chmod 600 .env",
 	"postCreateCommand": "[ ! -f package-lock.json ] || npm ci'",
-	"forwardPorts": [5173, 5432, 8082],
+	"forwardPorts": [5173, 5432],
 	"shutdownAction": "stopCompose"
 }
