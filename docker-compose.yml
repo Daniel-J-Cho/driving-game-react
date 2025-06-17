@@ -2,6 +2,7 @@ version: '3.8'
 
 services:
   dev:
+    env_file: .env
     image: mcr.microsoft.com/devcontainers/javascript-node:20-bullseye
     platform: linux/arm64
     environment:
@@ -20,6 +21,7 @@ services:
       - postgres
 
   postgres:
+    env_file: .env
     image: postgres:15-alpine
     platform: linux/arm64
     environment:
