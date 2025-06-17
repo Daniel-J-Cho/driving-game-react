@@ -4,6 +4,7 @@ services:
   dev:
     env_file: .env
     image: mcr.microsoft.com/devcontainers/javascript-node:20-bullseye
+    user: node
     platform: linux/arm64
     environment:
       PGHOST: ${PGHOST}

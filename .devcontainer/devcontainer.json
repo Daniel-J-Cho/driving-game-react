@@ -3,7 +3,7 @@
 	"dockerComposeFile": "../docker-compose.yml",
 	"service": "dev",
 	"workspaceFolder": "/home/dev/workspace",
-	"remoteUser": "dev",
+	"remoteUser": "node",
 
 	"features": {
 		"ghcr.io/devcontainers/features/common-utils:2": {
