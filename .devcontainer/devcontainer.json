@@ -2,20 +2,20 @@
 	"name": "Node.js & JavaScript",
 	"dockerComposeFile": "../docker-compose.yml",
 	"service": "dev",
-	"workspaceFolder": "/home/node/workspace",
+	"workspaceFolder": "/workspace",
 	"remoteUser": "node",
 
-	"features": {
-		"ghcr.io/devcontainers/features/common-utils:2": {
-			"installZsh": true,
-			"installOhMyZsh": true,
-			"upgradePackages": true
-		},
-		"ghcr.io/devcontainers/features/sshd:1": {
-			"version": "latest",
-			"forwardAgent": true
-		}
+	"mounts": [
+    {
+      "source": "/run/host-services/ssh-auth.sock",
+      "target": "/run/host-services/ssh-auth.sock",
+      "type": "bind"
+    }
+	],
+	"containerEnv": {
+		"SSH_AUTH_SOCK": "/run/host-services/ssh-auth.sock"
 	},
+  
 	"customizations": {
 		"vscode": {
 			"extensions": [
