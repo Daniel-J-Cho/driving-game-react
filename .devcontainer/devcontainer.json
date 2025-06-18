@@ -2,7 +2,7 @@
 	"name": "Node.js & JavaScript",
 	"dockerComposeFile": "../docker-compose.yml",
 	"service": "dev",
-	"workspaceFolder": "/workspace",
+	"workspaceFolder": "/workspaces/driving-game-react",
 	"remoteUser": "node",
 
 	"mounts": [

@@ -11,7 +11,6 @@ services:
       PGPASSWORD: ${PGPASSWORD}
       PGDATABASE: ${PGDATABASE}
     volumes:
-      - .:/workspace
       - vscode_extensions:/home/node/.vscode-server/extensions
       - /var/run/docker.sock:/var/run/docker.sock
       
