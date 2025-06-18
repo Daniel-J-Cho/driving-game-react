@@ -10,15 +10,17 @@ services:
       PGUSER: ${PGUSER}
       PGPASSWORD: ${PGPASSWORD}
       PGDATABASE: ${PGDATABASE}
+      SSH_AUTH_SOCK: /run/host-services/ssh-auth.sock
     volumes:
       - vscode_extensions:/home/node/.vscode-server/extensions
       - /var/run/docker.sock:/var/run/docker.sock
-      
+      - /run/host-services/ssh-auth.sock:/run/host-services/ssh-auth.sock:ro
     ports:
       - 5173:5173
     depends_on:
       postgres:
         condition: service_healthy
+    command: /bin/sh -c "while sleep 1000; do :; done"
 
   postgres:
     image: postgres:15-alpine
