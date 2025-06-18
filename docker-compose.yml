@@ -12,7 +12,7 @@ services:
       PGDATABASE: ${PGDATABASE}
       SSH_AUTH_SOCK: /run/host-services/ssh-auth.sock
     volumes:
-      - vscode_server_data:/home/node/.vscode-server
+      - node_home_data:/home/node
       - /var/run/docker.sock:/var/run/docker.sock
       - /run/host-services/ssh-auth.sock:/run/host-services/ssh-auth.sock:ro
     ports:
@@ -41,4 +41,4 @@ services:
 
 volumes:
   postgres_data:
-  vscode_server_data:
+  node_home_data:

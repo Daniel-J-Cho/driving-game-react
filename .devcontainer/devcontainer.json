@@ -27,7 +27,7 @@
 		}
 	},
 	"initializeCommand": "cp .env.example .env && chmod 600 .env",
-	"postCreateCommand": "sudo chown -R node:node /home/node/.vscode-server && [ ! -f package-lock.json ] || npm ci'",
+	"postCreateCommand": "sudo chown -R node:node /home/node || true && [ ! -f package-lock.json ] || npm ci'",
 	"forwardPorts": [5173, 5432],
 	"shutdownAction": "stopCompose"
 }
