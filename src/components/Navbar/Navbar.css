@@ -1,0 +1,55 @@
+@import url('https://fonts.googleapis.com/css2?family=Lusitana:wght@400;700&family=Playfair+Display+SC:wght@400;700;900&family=Volkhov:wght@400;700&display=swap');
+
+.nav-element {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  background-color: #000;
+  background-image: 
+    linear-gradient(45deg, rgba(37, 67, 39) 25%, transparent 25%),
+    linear-gradient(-45deg, rgba(37, 67, 39) 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, rgba(37, 67, 39) 75%),
+    linear-gradient(-45deg, transparent 75%, rgba(37, 67, 39) 75%);
+  background-size: 5.625rem 5.625rem; /* half this value for background-position values*/
+  background-position: 0 0, 0 2.8125rem, 2.8125rem -2.8125rem, -2.8125rem 0px;
+  color: white;
+  padding: 1rem 0;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+}
+
+.main-header {
+  font-family: 'Volkhov', serif;
+  font-size: 2.3rem;
+  font-weight: 900;
+  color: rgb(213, 118, 118);
+  text-shadow: 1px 1px 3px rgb(255, 2, 2);
+}
+
+.links {
+  position: absolute;
+  right: 1rem;
+}
+
+.account-link {
+  background-color: blue;
+  color: white;
+  font-family: 'Lusitana', serif;
+  font-family: 700;
+  border: 1px solid rgb(234, 0, 0);
+  border-radius: 0.3rem;
+  margin: 0 0.7rem;
+  padding: 0.5rem 1.1rem;
+  text-decoration: none;
+  transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out, border 0.2s ease-in-out;
+}
+
+.account-link:hover {
+  background-color:green;
+  color: rgb(8, 0, 255);
+  border: 1px double green;
+  transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out, border 0.2s ease-in-out;
+}

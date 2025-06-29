@@ -1,16 +1,38 @@
-import * as React from 'react'
+import { useState, useEffect } from 'react'
 import './App.css'
+import parseRoute from './lib/parse-route.js'
+import Home from './pages/Home.jsx'
+import Auth from './pages/Auth.jsx'
+import Play from './pages/Play.jsx'
 
 const App = () => {
+  const [route, setRoute] = useState(parseRoute(window.location.hash))
+
+  useEffect(() => {
+    const handleHashChange = () => {
+      setRoute(parseRoute(window.location.hash));
+    };
+
+    window.addEventListener('hashchange', handleHashChange);
+
+    return () => {
+      window.removeEventListener('hashchange', handleHashChange);
+    }
+  }, []);
+
+  const renderPage = () => {
+    if (route.path === '') return <Home />
+
+    if (route.path === 'register' || route.path === 'sign-in') return <Auth />
+
+    if (route.path === 'play') return <Play />
+  }
+
   return (
-    <nav className='nav-element'>
-      <span className='main-header'><strong>SPEEDING SHMEADING</strong></span>
-      <div className='links'>
-        <a href='#' className='account-link'>Sign In</a>
-        <a href='#' className='account-link'>Create Account</a>
-      </div>
-      
-    </nav>
+    <div>
+      {renderPage()}
+    </div>
+    
   )
 }
 
