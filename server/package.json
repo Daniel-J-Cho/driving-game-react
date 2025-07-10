@@ -1,0 +1,26 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "Backend server for the driving game",
+  "dependencies": {
+    "argon2": "^0.43.0",
+    "dotenv": "^17.0.1",
+    "express": "^5.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "jwt-decode": "^4.0.0",
+    "knex": "^3.1.0",
+    "pg": "^8.16.3"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10"
+  }
+}

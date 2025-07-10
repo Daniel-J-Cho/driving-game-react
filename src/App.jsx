@@ -23,7 +23,7 @@ const App = () => {
   const renderPage = () => {
     if (route.path === '') return <Home />
 
-    if (route.path === 'register' || route.path === 'sign-in') return <Auth />
+    if (route.path === 'sign-in' || route.path === 'register') return <Auth />
 
     if (route.path === 'play') return <Play />
   }
