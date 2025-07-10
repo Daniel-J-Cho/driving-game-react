@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   dev:
     image: mcr.microsoft.com/devcontainers/javascript-node:20-bullseye
@@ -11,6 +9,7 @@ services:
       PGPASSWORD: ${PGPASSWORD}
       PGDATABASE: ${PGDATABASE}
       SSH_AUTH_SOCK: /run/host-services/ssh-auth.sock
+      DATABASE_URL: ${DATABASE_URL}
     volumes:
       - node_home_data:/home/node
       - /var/run/docker.sock:/var/run/docker.sock
@@ -42,3 +41,4 @@ services:
 volumes:
   postgres_data:
   node_home_data:
+  
