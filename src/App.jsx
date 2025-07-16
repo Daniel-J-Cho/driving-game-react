@@ -1,12 +1,15 @@
-import { useState, useEffect } from 'react'
-import './App.css'
-import parseRoute from './lib/parse-route.js'
-import Home from './pages/Home.jsx'
-import Auth from './pages/Auth.jsx'
-import Play from './pages/Play.jsx'
+import { useState, useEffect } from 'react';
+import './App.css';
+import parseRoute from './lib/parse-route.js';
+import { AppContext } from './lib/app-context.js';
+import Home from './pages/Home.jsx';
+import Auth from './pages/Auth.jsx';
+import PlayHome from './pages/PlayHome.jsx';
+import PlayMain from './pages/PlayMain.jsx';
 
 const App = () => {
-  const [route, setRoute] = useState(parseRoute(window.location.hash))
+  const [route, setRoute] = useState(parseRoute(window.location.hash));
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
     const handleHashChange = () => {
@@ -20,19 +23,29 @@ const App = () => {
     }
   }, []);
 
+  const handleSignIn = result => {
+    const { user, token } = result;
+    window.localStorage.setItem('driving-game-jwt', token)
+    setUser(user)
+  }
+
   const renderPage = () => {
     if (route.path === '') return <Home />
-
     if (route.path === 'sign-in' || route.path === 'register') return <Auth />
+    if (route.path === 'play-home') return <PlayHome />
+    if (route.path === 'play-main') return <PlayMain />
+  }
 
-    if (route.path === 'play') return <Play />
+  const contextValue = {
+    user,
+    route,
+    handleSignIn
   }
 
   return (
-    <div>
+    <AppContext.Provider value={contextValue}>
       {renderPage()}
-    </div>
-    
+    </AppContext.Provider>
   )
 }
 
