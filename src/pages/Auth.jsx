@@ -7,7 +7,7 @@ import AuthForm from '../components/AuthForm/AuthForm';
 const Auth = () => {
     const { user, route, handleSignIn } = useAppContext();
     if (user) {
-        return <Redirect to='' />
+        return <Redirect to='#play-home' />
     }
 
     const toggleHeader = route.path === 'register'
