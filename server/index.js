@@ -61,6 +61,37 @@ app.post('/api/users/register', (req, res, next) => {
         });
 })
 
+app.post('/api/users/sign-in', (req, res, next) => {
+    const { username, password } = req.body;
+    if (!username || !password) {
+        throw new ClientError(401, 'invalid login');
+    }
+    const sql = `
+        SELECT "user_id",
+               "hashed_password"
+          FROM "users"
+         WHERE "username" = $1
+    `;
+    const params = [username];
+    db.query(sql, params) 
+        .then (async result => {
+            const [user] = result.rows;
+            if (!user) {
+                throw new ClientError(401, 'invalid login');
+            }
+            const { user_id, hashed_password } = user;
+            const isMatching = await argon2
+                .verify(hashed_password, password);
+            if (!isMatching) {
+                throw new ClientError(401, 'invalid login');
+            }
+            const payload = { user_id, username };
+            const token = jwt.sign(payload, process.env.TOKEN_SECRET);
+            res.json({ token, user: payload });
+        })
+        .catch(err => next(err));
+});
+
 // If in production, handle client-side routing by serving index.html for all unmatched routes
 // This is important for single-page applications (SPAs) like React.
 if (process.env.NODE_ENV === 'production') {

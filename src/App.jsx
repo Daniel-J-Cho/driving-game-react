@@ -1,15 +1,19 @@
-import { useState, useEffect } from 'react';
-import './App.css';
+import { useState, useEffect, useRef } from 'react';
+import { jwtDecode } from 'jwt-decode';
 import parseRoute from './lib/parse-route.js';
 import { AppContext } from './lib/app-context.js';
 import Home from './pages/Home.jsx';
 import Auth from './pages/Auth.jsx';
 import PlayHome from './pages/PlayHome.jsx';
 import PlayMain from './pages/PlayMain.jsx';
+import './App.css';
 
 const App = () => {
   const [route, setRoute] = useState(parseRoute(window.location.hash));
   const [user, setUser] = useState(null);
+  const [isAuthorizing, setIsAuthorizing] = useState(true);
+
+  const initialAuthChecked = useRef(false);
 
   useEffect(() => {
     const handleHashChange = () => {
@@ -18,15 +22,29 @@ const App = () => {
 
     window.addEventListener('hashchange', handleHashChange);
 
+    if (!initialAuthChecked.current) {
+      const token = window.localStorage.getItem('driving-game-jwt');
+      const decodedUser = token ? jwtDecode(token) : null;
+      setUser(decodedUser);
+      setIsAuthorizing(false);
+      
+      if (decodedUser && (route.path === '' || route.path === 'sign-in' || route.path === 'register')) {
+        window.location.hash = '#play-home';
+      }
+      initialAuthChecked.current = true;
+    };
+
     return () => {
       window.removeEventListener('hashchange', handleHashChange);
-    }
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleSignIn = result => {
     const { user, token } = result;
     window.localStorage.setItem('driving-game-jwt', token)
     setUser(user)
+    window.location.hash = '#play-home';
   }
 
   const renderPage = () => {
@@ -40,6 +58,10 @@ const App = () => {
     user,
     route,
     handleSignIn
+  };
+
+  if (isAuthorizing) {
+    return null;
   }
 
   return (

@@ -40,7 +40,10 @@ const AuthForm = ({ action, onSignIn }) => {
             if (action === 'register') {
                 window.location.hash = 'sign-in'
             } else if (result.user && result.token) {
+                // onSignIn prop is passed from AuthForm component in Auth.jsx
                 onSignIn(result);
+            } else if (!result.user || !result.token) {
+                setMessage('Invalid username and/or password. Please try again or Register.')
             } else {
                 setMessage('An unexpected success occurred. Please sign in manually');
             }
