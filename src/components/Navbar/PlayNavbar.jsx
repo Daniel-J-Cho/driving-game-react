@@ -2,7 +2,7 @@ import { useAppContext } from '../../lib/app-context.js';
 import './Navbar.css'
 
 const PlayNavbar = () => {
-    const { user } = useAppContext();
+    const { user, handleSignOut } = useAppContext();
 
     let message = ''
 
@@ -15,7 +15,7 @@ const PlayNavbar = () => {
             <span className='main-header'><strong>SPEEDING SHMEADING</strong></span>
             <div className='links'>
                 <span className='text-xl'>{message}</span>
-                <a href='#' className='account-link'>Sign out</a>
+                <a href='#' className='account-link' onClick={handleSignOut}>Sign out</a>
             </div>
         </nav>
     )
