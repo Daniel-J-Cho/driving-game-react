@@ -47,6 +47,12 @@ const App = () => {
     window.location.hash = '#play-home';
   }
 
+  const handleSignOut = () => {
+    window.localStorage.removeItem('driving-game-jwt');
+    setUser(null);
+    window.location.hash= '';
+  }
+
   const renderPage = () => {
     if (route.path === '') return <Home />
     if (route.path === 'sign-in' || route.path === 'register') return <Auth />
@@ -57,7 +63,8 @@ const App = () => {
   const contextValue = {
     user,
     route,
-    handleSignIn
+    handleSignIn,
+    handleSignOut
   };
 
   if (isAuthorizing) {

@@ -29,6 +29,18 @@ if (process.env.NODE_ENV === 'production') {
 // Middleware for parsing JSON request bodies
 app.use(express.json());
 
+// For 'Guest' user functionality
+async function findGuestUser() {
+    const sql = `
+        SELECT "user_id", "username"
+        FROM "users"
+        WHERE "username" = 'Guest'
+    `;
+    const result = await db.query(sql);
+    const [user] = result.rows;
+    return user;
+}
+
 // API routes go here
 // Example: app.post('/api/auth/sign-up', async (req, res, next) => { ... });
 // app.get('/api/scores', async (req, res, next) => { ... });
@@ -91,6 +103,24 @@ app.post('/api/users/sign-in', (req, res, next) => {
         })
         .catch(err => next(err));
 });
+
+app.post('/api/users/guest-sign-in', async (req, res, next) => {
+    try {
+        const guestUser = await findGuestUser();
+
+        if (!guestUser) {
+            throw new ClientError(500, 'Guest user not found on server.');
+        }
+
+        const { user_id, username } = guestUser;
+        const payload = { user_id, username };
+        const token = jwt.sign(payload, process.env.TOKEN_SECRET);
+        res.json({ token, user: payload });
+    } catch (err) {
+        console.error('Guest sign-in error: ', err);
+        next(err);
+    }
+})
 
 // If in production, handle client-side routing by serving index.html for all unmatched routes
 // This is important for single-page applications (SPAs) like React.
