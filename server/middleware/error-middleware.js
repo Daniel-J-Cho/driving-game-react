@@ -1,6 +1,6 @@
 import { ClientError } from './client-error.js';
 
-export function errorMiddleware(err, req, res, netx) {
+export function errorMiddleware(err, req, res, next) {
     if (err instanceof ClientError) {
         res.status(err.status).json({
             error: err.message
