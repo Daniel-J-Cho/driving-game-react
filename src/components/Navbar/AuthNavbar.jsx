@@ -1,8 +1,16 @@
+import { useState } from 'react';
 import { useAppContext } from '../../lib/app-context.js';
 import './Navbar.css'
 
 const AuthNavbar = ({ headerName, SignInRegButton }) => {
     const { handleSignIn } = useAppContext();
+
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+    const toggleMenu = () => {
+        setIsMenuOpen(!isMenuOpen);
+    }
+
 
     const link = SignInRegButton === 'register' 
         ? '#sign-in'
@@ -37,10 +45,27 @@ const AuthNavbar = ({ headerName, SignInRegButton }) => {
     return (
         <nav className='nav-element'>
             <span className='main-header'><strong>{headerName}</strong></span>
-            <div className='links'>
-                <a href='#' className='account-link'>Exit</a>
-                <a href={link} className='account-link'>{linkLabel}</a>
-                <a onClick={handleGuestSignIn} className='account-link guest-link-button'>Sign in<br />as Guest</a>
+            <div className='right-section'>
+                <button 
+                    type='button' 
+                    className={`signed-out-hamburger-icon ${isMenuOpen ? 'is-active' : ''}`} 
+                    onClick={toggleMenu}
+                >
+                    <span className='line line-1'></span>
+                    <span className='line line-2'></span>
+                    <span className='line line-3'></span>
+                </button>
+                <div className='desktop-links'>
+                    <a href='#' className='account-link'>Exit</a>
+                    <a href={link} className='account-link'>{linkLabel}</a>
+                    <a onClick={handleGuestSignIn} className='guest-link-button'>Sign in<br />as Guest</a>
+                </div>
+            </div>
+                
+            <div className={`signed-out-menu ${isMenuOpen ? 'is-open' : ''}`}>
+                <a href='#' className='signed-out-menu-link'>Exit</a>
+                <a href={link} className='signed-out-menu-link'>{linkLabel}</a>
+                <a onClick={handleGuestSignIn} className='signed-out-menu-link'>Sign in<br />as Guest</a>
             </div>
         </nav>
     )

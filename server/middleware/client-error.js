@@ -6,4 +6,4 @@ class ClientError extends Error {
     }
 }
 
-export { ClientError};
+export { ClientError };

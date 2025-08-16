@@ -7,6 +7,8 @@ import argon2 from 'argon2';
 import jwt from 'jsonwebtoken';
 import { fileURLToPath } from 'url';
 import { ClientError } from './middleware/client-error.js';
+import { errorMiddleware } from './middleware/error-middleware.js';
+import authMiddleware from './middleware/auth-middleware.js';
 
 const db = new pg.Pool({
     connectionString: process.env.DATABASE_URL,
@@ -61,7 +63,10 @@ app.post('/api/users/register', (req, res, next) => {
             db.query(sql, params)
                 .then(result => {
                     const [user] = result.rows;
-                    res.status(201).json(user);
+                    const { user_id } = user;
+                    const payload = { user_id, username };
+                    const token = jwt.sign(payload, process.env.TOKEN_SECRET);
+                    res.status(201).json({ token, user: payload });
                 })
                 .catch(err => next(err));
         })
@@ -92,8 +97,7 @@ app.post('/api/users/sign-in', (req, res, next) => {
                 throw new ClientError(401, 'invalid login');
             }
             const { user_id, hashed_password } = user;
-            const isMatching = await argon2
-                .verify(hashed_password, password);
+            const isMatching = await argon2.verify(hashed_password, password);
             if (!isMatching) {
                 throw new ClientError(401, 'invalid login');
             }
@@ -121,6 +125,51 @@ app.post('/api/users/guest-sign-in', async (req, res, next) => {
         next(err);
     }
 })
+
+app.delete('/api/users/:userId/delete-account', authMiddleware, async (req, res, next) => {
+    try {
+        const { userId } = req.params;
+        const { user_id: authenticatedUserId } = req.user;
+        const { password } = req.body;
+
+        if (parseInt(userId) !== authenticatedUserId) {
+            throw new ClientError(403, 'Unauthorized. You can only delete your own account.');
+        }
+
+        // 1. Fetch the user's hashed password
+        const sql = `
+            SELECT "hashed_password"
+            FROM "users"
+            WHERE "user_id" = $1;
+        `;
+        const params = [userId];
+        const result = await db.query(sql, params);
+        const [user] = result.rows;
+
+        if (!user) {
+            throw new ClientError(404, 'User not found');
+        }
+
+        // 2. Verify the provided password
+        const isMatching = await argon2.verify(user.hashed_password, password);
+        if (!isMatching) {
+            throw new ClientError(401, 'Incorrect password');
+        }
+
+        // 3. Delete the user from the database
+        const deleteSql = `
+            DELETE FROM "users"
+            WHERE "user_id" = $1;
+        `;
+        await db.query(deleteSql, params);
+
+        res.status(204).end();
+    } catch (err) {
+        next(err);
+    }
+});
+
+app.use(errorMiddleware);
 
 // If in production, handle client-side routing by serving index.html for all unmatched routes
 // This is important for single-page applications (SPAs) like React.
