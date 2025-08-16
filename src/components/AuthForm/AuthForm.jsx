@@ -37,9 +37,8 @@ const AuthForm = ({ action, onSignIn }) => {
                 return;
             }
 
-            if (action === 'register') {
-                window.location.hash = 'sign-in'
-            } else if (result.user && result.token) {
+            // the first condition handles both register and sign-in actions
+            if (result.user && result.token) {
                 // onSignIn prop is passed from AuthForm component in Auth.jsx
                 onSignIn(result);
             } else if (!result.user || !result.token) {
@@ -126,7 +125,7 @@ const AuthForm = ({ action, onSignIn }) => {
                         <div>
                             <button
                                 type='submit'
-                                className='w-full bg-blue-600 text-white py-3 px-4 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-500 focus:ring-opacity-50 transition duration-200 font-semibold'
+                                className='w-full bg-blue-600 text-white py-3 px-4 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-500 focus:ring-opacity-50 transition duration-200 font-semibold cursor-pointer'
                                 disabled={isLoading}
                             >
                                 {submitButtonText}

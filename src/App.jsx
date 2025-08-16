@@ -6,6 +6,7 @@ import Home from './pages/Home.jsx';
 import Auth from './pages/Auth.jsx';
 import PlayHome from './pages/PlayHome.jsx';
 import PlayMain from './pages/PlayMain.jsx';
+import Delete from './pages/Delete.jsx';
 import './App.css';
 
 const App = () => {
@@ -58,6 +59,7 @@ const App = () => {
     if (route.path === 'sign-in' || route.path === 'register') return <Auth />
     if (route.path === 'play-home') return <PlayHome />
     if (route.path === 'play-main') return <PlayMain />
+    if (route.path === 'delete-account') return <Delete />
   }
 
   const contextValue = {
