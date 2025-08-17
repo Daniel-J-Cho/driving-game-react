@@ -1,7 +1,7 @@
 import DeleteForm from '../components/DeleteForm/DeleteForm.jsx';
 import Redirect from '../components/Redirect.jsx';
 import { useAppContext } from '../lib/app-context.js';
-import PlayNavbar from '../components/Navbar/PlayNavbar/PlayNavbar.jsx';
+import GameNavbar from '../components/Navbar/GameNavbar/GameNavbar.jsx';
 
 const Delete = () => {
     const { user, handleSignOut } = useAppContext();
@@ -12,7 +12,7 @@ const Delete = () => {
 
     return (
         <div className='auth-page-container'>
-            <PlayNavbar headerName='DELETE ACCOUNT' />
+            <GameNavbar headerName='DELETE ACCOUNT' />
             <div className='auth-form-container'>
                 <DeleteForm
                     onDeleteSuccess={handleSignOut}
