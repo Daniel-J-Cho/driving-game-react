@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { useAppContext } from '../../../lib/app-context.js';
-import './PlayNavbar.css'
+import './GameNavbar.css'
 
-const PlayNavbar = ({ headerName }) => {
+const GameNavbar = ({ headerName }) => {
     const { user, handleSignOut, route } = useAppContext();
 
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -43,7 +43,7 @@ const PlayNavbar = ({ headerName }) => {
                 {onDeletePage ? 
                     <>
                         <a href='#' className='signed-in-menu-link' onClick={handleSignOut}>Sign out</a>
-                        <a href='#play-home' className='signed-in-menu-link'>Cancel</a>
+                        <a href='#game-home' className='signed-in-menu-link'>Cancel</a>
                     </> :
                     <>
                         <div className='welcome-message'>
@@ -61,4 +61,4 @@ const PlayNavbar = ({ headerName }) => {
     )
 };
 
-export default PlayNavbar
+export default GameNavbar

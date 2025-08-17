@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-const PlayMain = () => {
+const GameMain = () => {
     return (
         <div>
             UNDER CONSTRUCTION
@@ -8,4 +8,4 @@ const PlayMain = () => {
     )
 }
 
-export default PlayMain;
+export default GameMain;

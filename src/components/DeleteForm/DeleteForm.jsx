@@ -69,7 +69,7 @@ const DeleteForm = ({ onDeleteSuccess, user }) => {
                             I understand, proceed to delete
                         </button>
                         <a 
-                            href='#play-home'
+                            href='#game-home'
                             className='w-full text-center text-blue-400 py-3 px-4 rounded-lg hover:bg-blue-900 focus:outline-none focus:ring-4 focus:ring-blue-500 focus:ring-opacity-50 transition duration-200 font-semibold cursor-pointer'
                         >
                             Cancel
@@ -118,7 +118,7 @@ const DeleteForm = ({ onDeleteSuccess, user }) => {
                             Delete Account
                         </button>
                         <a 
-                            href='#play-home'
+                            href='#game-home'
                             className='w-full text-center text-blue-400 py-3 px-4 rounded-lg focus:outline-none focus:ring-4 focus:ring-blue-500 focus:ring-opacity-50 transition duration-200 font-semibold cursor-pointer'
                         >
                             Cancel

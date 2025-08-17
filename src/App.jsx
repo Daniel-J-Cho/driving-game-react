@@ -4,8 +4,8 @@ import parseRoute from './lib/parse-route.js';
 import { AppContext } from './lib/app-context.js';
 import Home from './pages/Home.jsx';
 import Auth from './pages/Auth.jsx';
-import PlayHome from './pages/PlayHome.jsx';
-import PlayMain from './pages/PlayMain.jsx';
+import GameHome from './pages/GameHome.jsx';
+import GameMain from './pages/GameMain.jsx';
 import Delete from './pages/Delete.jsx';
 import './App.css';
 
@@ -30,7 +30,7 @@ const App = () => {
       setIsAuthorizing(false);
       
       if (decodedUser && (route.path === '' || route.path === 'sign-in' || route.path === 'register')) {
-        window.location.hash = '#play-home';
+        window.location.hash = '#game-home';
       }
       initialAuthChecked.current = true;
     };
@@ -45,7 +45,7 @@ const App = () => {
     const { user, token } = result;
     window.localStorage.setItem('driving-game-jwt', token)
     setUser(user)
-    window.location.hash = '#play-home';
+    window.location.hash = '#game-home';
   }
 
   const handleSignOut = () => {
@@ -57,8 +57,8 @@ const App = () => {
   const renderPage = () => {
     if (route.path === '') return <Home />
     if (route.path === 'sign-in' || route.path === 'register') return <Auth />
-    if (route.path === 'play-home') return <PlayHome />
-    if (route.path === 'play-main') return <PlayMain />
+    if (route.path === 'game-home') return <GameHome />
+    if (route.path === 'game-main') return <GameMain />
     if (route.path === 'delete-account') return <Delete />
   }
 
